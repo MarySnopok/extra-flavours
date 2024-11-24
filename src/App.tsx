@@ -1,6 +1,6 @@
 import React from "react";
-import HelloWorld from "components/HelloWorld";
+import {Page} from "./components/Page";
 
-const App: React.FC = () => <HelloWorld />;
+const App: React.FC = () => <Page />;
 
 export default App;

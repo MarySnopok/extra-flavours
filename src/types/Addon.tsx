@@ -1,4 +1,4 @@
-export interface Addon {
+export type Addon = {
     name: string;
     price: number;
-}
+};
