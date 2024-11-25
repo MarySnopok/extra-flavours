@@ -1,6 +1,6 @@
-import React from "react";
-import { Page } from "./components/Page";
+import React from 'react';
+import { Cart } from './components/Cart';
 
-const App: React.FC = () => <Page />;
+const App: React.FC = () => <Cart />;
 
 export default App;

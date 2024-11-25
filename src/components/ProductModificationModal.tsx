@@ -1,83 +1,79 @@
 import { Modal, Select, message } from 'antd';
 import { useProductStore } from '../state/useProductStore';
+import { CartItem } from '../state/useCartStore';
+import { useProduct } from '../state/useProducts';
 
 const { Option } = Select;
 
 interface ModificationModalProps {
-  open: boolean;
+  item: CartItem;
   onClose: () => void;
-  modifications: {
-    sizes?: { name: string; addonPrice: number }[];
-    flavours?: { name: string; addonPrice: number }[];
-  };
 }
 
-export const ProductModificationModal = ({
-  open,
-  onClose,
-  modifications,
-}: ModificationModalProps) => {
-  const setModification = useProductStore((state) => state.setModification);
-  const selectedModifications = useProductStore((state) => state.modifications);
+const useAvailableModifications = (item: CartItem) => {
+  const product = useProduct(item.id);
 
-  if (!modifications || (!modifications.sizes && !modifications.flavours)) {
-    console.error('Invalid modification selected', modifications);
+  if (!product) {
+    console.error('Invalid product id', item.id);
     return null;
   }
 
-  const handleChange = (key: 'size' | 'flavor', addonId: string) => {
-    const addon = modifications[key === 'size' ? 'sizes' : 'flavours']?.find(
-      (addon) => addon.name === addonId,
-    );
-    if (!addon || addon.addonPrice < 0) {
-      console.error('Invalid modification selected', key, addonId, addon);
-      message.warning(
-        'Unfortunately we cant set this selection. Please try different modification.',
-      );
-      return;
-    }
-    setModification(key, addon.name, addon.addonPrice);
+  const keys = Object.entries(product.modifications);
+
+  return keys;
+};
+
+export const ProductModificationModal = ({
+  item,
+  onClose,
+}: ModificationModalProps) => {
+  const product = useProduct(item.id);
+
+  const availableModifications = useAvailableModifications(item);
+
+  const setModification = useProductStore((state) => state.setModification);
+  // const selectedModifications = useProductStore((state) => state.modifications);
+
+  // const handleChange = (key: 'size' | 'flavor', addonId: string) => {
+  //   const addon = modifications[key === 'size' ? 'sizes' : 'flavours']?.find(
+  //     (addon) => addon.name === addonId,
+  //   );
+  //   if (!addon || addon.addonPrice < 0) {
+  //     console.error('Invalid modification selected', key, addonId, addon);
+  //     message.warning(
+  //       'Unfortunately we cant set this selection. Please try different modification.',
+  //     );
+  //     return;
+  //   }
+  //   setModification(key, addon.name, addon.addonPrice);
+  // };
+
+  const handleChange = (key: string, value: string) => {
+    console.log('handleChange', key, value);
   };
 
   return (
     <Modal
-      title="Select Modifications"
-      open={open}
+      title={`Select Modifications for ${product?.name}`}
+      open
       onCancel={onClose}
       footer={null}
     >
-      {modifications.sizes && (
-        <div>
-          <p>Select Size:</p>
+      {availableModifications &&
+        availableModifications.map(([key, options]) => (
           <Select<string>
+            key={key}
             style={{ width: '100%' }}
-            onChange={(value) => handleChange('size', value)}
-            value={selectedModifications.size}
+            onChange={(value) => handleChange(key, value)}
+            value={item.selectedModifications[key]}
           >
-            {modifications.sizes.map((size) => (
-              <Option key={size.name} value={size.name}>
-                {size.name} (+{size.addonPrice} $)
+            {options.map((option) => (
+              <Option key={option.name} value={option.name}>
+                {option.name} (+{option.addonPrice} $)
               </Option>
             ))}
           </Select>
-        </div>
-      )}
-      {modifications.flavours && (
-        <div style={{ marginTop: 16 }}>
-          <p>Select Flavor:</p>
-          <Select<string>
-            style={{ width: '100%' }}
-            onChange={(value) => handleChange('flavor', value)}
-            value={selectedModifications.flavor}
-          >
-            {modifications.flavours.map((flavor) => (
-              <Option key={flavor.name} value={flavor.name}>
-                {flavor.name}
-              </Option>
-            ))}
-          </Select>
-        </div>
-      )}
+        ))}
     </Modal>
   );
 };
