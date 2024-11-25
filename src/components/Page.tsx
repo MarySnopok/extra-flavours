@@ -1,9 +1,9 @@
 /* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
 import { Button } from 'antd';
-import {ProductModificationModal} from '../components/ProductModificationModal';
-import {AddonSelector} from '../components/AddonSelector';
-import {PriceDisplay} from '../components/PriceDisplay';
+import { ProductModificationModal } from '../components/ProductModificationModal';
+import { AddonSelector } from '../components/AddonSelector';
+import { PriceDisplay } from '../components/PriceDisplay';
 import { useProductStore } from '../state/useProductStore';
 
 export const Page: React.FC = () => {
@@ -49,7 +49,7 @@ export const Page: React.FC = () => {
         Select Product
       </Button>
       <ProductModificationModal
-        visible={isModalVisible}
+        open={isModalVisible}
         onClose={() => setModalVisible(false)}
         modifications={exampleProduct.modifications}
       />
@@ -58,4 +58,3 @@ export const Page: React.FC = () => {
     </div>
   );
 };
-

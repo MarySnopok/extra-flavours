@@ -1,12 +1,10 @@
-/* eslint-disable prettier/prettier */
-import React from 'react';
 import { Modal, Select, message } from 'antd';
 import { useProductStore } from '../state/useProductStore';
 
 const { Option } = Select;
 
 interface ModificationModalProps {
-  visible: boolean;
+  open: boolean;
   onClose: () => void;
   modifications: {
     sizes?: { name: string; addonPrice: number }[];
@@ -14,31 +12,50 @@ interface ModificationModalProps {
   };
 }
 
-export const ProductModificationModal: React.FC<ModificationModalProps> | null = ({ visible, onClose, modifications }) => {
+export const ProductModificationModal = ({
+  open,
+  onClose,
+  modifications,
+}: ModificationModalProps) => {
   const setModification = useProductStore((state) => state.setModification);
+  const selectedModifications = useProductStore((state) => state.modifications);
 
   if (!modifications || (!modifications.sizes && !modifications.flavours)) {
-    console.error("Invalid modification selected", modifications);
+    console.error('Invalid modification selected', modifications);
     return null;
   }
 
-  const handleChange = (key: 'size' | 'flavor', value: string, addonPrice: number) => {
-    if (!value || addonPrice < 0) {
-        console.error("Invalid modification selected", key, value, addonPrice);
-        message.warning("Unfortunately we cant set this selection. Please try different modification.");
-        return;
+  const handleChange = (key: 'size' | 'flavor', addonId: string) => {
+    const addon = modifications[key === 'size' ? 'sizes' : 'flavours']?.find(
+      (addon) => addon.name === addonId,
+    );
+    if (!addon || addon.addonPrice < 0) {
+      console.error('Invalid modification selected', key, addonId, addon);
+      message.warning(
+        'Unfortunately we cant set this selection. Please try different modification.',
+      );
+      return;
     }
-    setModification(key, value, addonPrice);
+    setModification(key, addon.name, addon.addonPrice);
   };
 
   return (
-    <Modal title="Select Modifications" visible={visible} onCancel={onClose} footer={null}>
+    <Modal
+      title="Select Modifications"
+      open={open}
+      onCancel={onClose}
+      footer={null}
+    >
       {modifications.sizes && (
         <div>
           <p>Select Size:</p>
-          <Select style={{ width: '100%' }} onChange={(value) => handleChange('size', value.key, value.addonPrice)}>
+          <Select<string>
+            style={{ width: '100%' }}
+            onChange={(value) => handleChange('size', value)}
+            value={selectedModifications.size}
+          >
             {modifications.sizes.map((size) => (
-              <Option key={size.name} value={{ key: size.name, addonPrice: size.addonPrice }}>
+              <Option key={size.name} value={size.name}>
                 {size.name} (+{size.addonPrice} $)
               </Option>
             ))}
@@ -48,9 +65,13 @@ export const ProductModificationModal: React.FC<ModificationModalProps> | null =
       {modifications.flavours && (
         <div style={{ marginTop: 16 }}>
           <p>Select Flavor:</p>
-          <Select style={{ width: '100%' }} onChange={(value) => handleChange('flavor', value.key, value.addonPrice)}>
+          <Select<string>
+            style={{ width: '100%' }}
+            onChange={(value) => handleChange('flavor', value)}
+            value={selectedModifications.flavor}
+          >
             {modifications.flavours.map((flavor) => (
-              <Option key={flavor.name} value={{ key: flavor.name, addonPrice: flavor.addonPrice }}>
+              <Option key={flavor.name} value={flavor.name}>
                 {flavor.name}
               </Option>
             ))}
