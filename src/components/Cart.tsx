@@ -4,6 +4,7 @@ import { useCartStore } from '../state/useCartStore';
 import { CartItemShowroom } from './CartItem';
 import { useEffect, useState } from 'react';
 import { ProductModificationModal } from './ProductModificationModal';
+import { CartTotal } from './CartTotal';
 
 export const Cart = () => {
   const items = useCartStore((state) => state.items);
@@ -12,7 +13,9 @@ export const Cart = () => {
     string | null
   >(null);
   const [changeAddonsFor, setChangeAddonsFor] = useState<string | null>(null);
-
+  const modifyingItem = items.find(
+    (item) => item.id === changeModificationsFor,
+  );
   return (
     <div>
       <h1>Cart: {items.length} items</h1>
@@ -28,13 +31,14 @@ export const Cart = () => {
         ))}
       </div>
 
-      {changeModificationsFor && (
+      {modifyingItem && (
         <ProductModificationModal
-          item={items.find((item) => item.id === changeModificationsFor)}
+          item={modifyingItem}
+          onClose={() => setChangeModificationsFor(null)}
         />
       )}
 
-      <div>Total price: TODO $</div>
+      <CartTotal />
     </div>
   );
 };

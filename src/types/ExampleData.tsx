@@ -13,8 +13,26 @@ export const exampleProduct: Product = {
     ],
     flavours: [
       { id: 'flavour-coca-cola', name: 'Coca Cola', addonPrice: 0 },
-      { id: 'flavour-fanta', name: 'Fanta', addonPrice: 0 },
-      { id: 'flavour-sprite', name: 'Sprite', addonPrice: 0 },
+      { id: 'flavour-fanta', name: 'Fanta', addonPrice: 10 },
+      { id: 'flavour-sprite', name: 'Sprite', addonPrice: 15 },
+    ],
+  },
+};
+
+export const exampleProductWithTopings: Product = {
+  id: 'a_very_unique_burger_id',
+  name: 'Cheeseburger',
+  price: 120,
+  modifications: {
+    sizes: [
+      { id: 'size-tiny', name: 'Tiny', addonPrice: 0 },
+      { id: 'size-normal', name: 'Normal', addonPrice: 15 },
+      { id: 'size-large', name: 'Large', addonPrice: 25 },
+    ],
+    topings: [
+      { id: 'pickles', name: 'Extra pickles', addonPrice: 0 },
+      { id: 'cheese', name: 'Double cheese', addonPrice: 10 },
+      { id: 'ananas', name: 'Hawaian taste', addonPrice: -112 },
     ],
   },
 };

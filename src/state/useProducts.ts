@@ -1,8 +1,12 @@
 import { useMemo } from 'react';
-import { exampleAddonGroup, exampleProduct } from '../types/ExampleData';
+import {
+  exampleAddonGroup,
+  exampleProduct,
+  exampleProductWithTopings,
+} from '../types/ExampleData';
 
 const productsStab = {
-  products: [exampleProduct],
+  products: [exampleProduct, exampleProductWithTopings],
   addonGroups: [exampleAddonGroup],
 };
 

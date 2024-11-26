@@ -4,7 +4,7 @@ import { useProduct } from '../state/useProducts';
 
 interface CartItemShowroomProps {
   item: CartItem;
-  onChangeModifications: (productId: string) => void;
+  onChangeModifications: (item: string) => void;
   onChangeAddons: (productId: string) => void;
 }
 
@@ -19,7 +19,9 @@ export const CartItemShowroom = ({
   return (
     <div>
       CartItem
-      <div>name: {product?.name}</div>
+      <div>
+        name: {product?.name} price: {product?.price}
+      </div>
       <Button onClick={() => onChangeModifications(item.id)}>
         Change modifications
       </Button>
