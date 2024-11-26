@@ -1,4 +1,4 @@
-import { Skeleton } from 'antd';
+import { Badge, Skeleton, Space, Typography } from 'antd';
 import { useCartStore } from '../state/useCartStore';
 
 import { CartItemShowroom } from './CartItem';
@@ -16,11 +16,23 @@ export const Cart = () => {
   const modifyingItem = items.find(
     (item) => item.id === changeModificationsFor,
   );
+  //TODO: find a better way for a line 25 :) this is hillarious
   return (
     <div>
-      <h1>Cart: {items.length} items</h1>
+      <Typography.Title level={2} style={{ textAlign: 'center' }}>
+        <Badge count={items.length} color="green">
+          <span style={{ alignSelf: 'flex-start ' }}>
+            Customer cart&nbsp;&nbsp;&nbsp;&nbsp;
+          </span>
+        </Badge>
+      </Typography.Title>
 
-      <div>
+      <Space
+        direction="vertical"
+        align="center"
+        size={16}
+        style={{ justifyContent: 'center', width: '100%' }}
+      >
         {items.map((item) => (
           <CartItemShowroom
             onChangeAddons={setChangeAddonsFor}
@@ -29,15 +41,13 @@ export const Cart = () => {
             item={item}
           />
         ))}
-      </div>
-
+      </Space>
       {modifyingItem && (
         <ProductModificationModal
           item={modifyingItem}
           onClose={() => setChangeModificationsFor(null)}
         />
       )}
-
       <CartTotal />
     </div>
   );

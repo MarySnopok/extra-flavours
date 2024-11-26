@@ -1,3 +1,4 @@
+import { Tag, Typography } from 'antd';
 import { useCartStore } from '../state/useCartStore';
 import { useFetchProducts } from '../state/useProducts';
 export const CartTotal = () => {
@@ -24,9 +25,11 @@ export const CartTotal = () => {
   }, 0);
 
   return (
-    <div className="cart-total">
-      <h2>Total</h2>
-      <p>{total} $</p>
+    <div
+      className="cart-total"
+      style={{ padding: 20, textAlign: 'right', width: 300, margin: '0 auto' }}
+    >
+      <Tag color="gold">Total: {total}$</Tag>
     </div>
   );
 };
