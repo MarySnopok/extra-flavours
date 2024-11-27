@@ -17,14 +17,13 @@ export const Cart = () => {
   const modifyingItem = items.find(
     (item) => item.id === changeModificationsFor,
   );
-  //TODO: find a better way for a line 25 :) this is hillarious
   return (
     <div>
       <Typography.Title level={2} style={{ textAlign: 'center' }}>
         <Badge count={items.length} color="green">
-          <span style={{ alignSelf: 'flex-start ' }}>
-            Customer cart&nbsp;&nbsp;&nbsp;&nbsp;
-          </span>
+          <div style={{ alignSelf: 'flex-start', marginRight: 10 }}>
+            Customer cart
+          </div>
         </Badge>
       </Typography.Title>
 
