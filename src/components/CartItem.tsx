@@ -1,7 +1,6 @@
-import { Button, Typography, Tag, Card, Space } from 'antd';
+import { Button, Tag, Card, Space } from 'antd';
 import { CartItem } from '../state/useCartStore';
 import { useProduct } from '../state/useProducts';
-import { getPrice } from '../utils/getPrice';
 
 interface CartItemShowroomProps {
   item: CartItem;

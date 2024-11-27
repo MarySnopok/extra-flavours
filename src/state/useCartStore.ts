@@ -56,13 +56,4 @@ export const useCartStore = create<CartState>((set) => ({
           : item,
       ),
     })),
-
-  //   selectProduct: (id, basePrice) =>
-  //     set({
-  //       selectedProductId: id,
-  //       modifications: {},
-  //       addons: {},
-  //       basePrice,
-  //       totalPrice: basePrice,
-  //     }),
 }));

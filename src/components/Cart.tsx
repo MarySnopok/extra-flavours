@@ -1,8 +1,8 @@
-import { Badge, Skeleton, Space, Typography } from 'antd';
+import { Badge, Space, Typography } from 'antd';
 import { useCartStore } from '../state/useCartStore';
 
 import { CartItemShowroom } from './CartItem';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { ProductModificationModal } from './ProductModificationModal';
 import { CartTotal } from './CartTotal';
 
@@ -12,6 +12,7 @@ export const Cart = () => {
   const [changeModificationsFor, setChangeModificationsFor] = useState<
     string | null
   >(null);
+  //TODO: complete addons
   const [changeAddonsFor, setChangeAddonsFor] = useState<string | null>(null);
   const modifyingItem = items.find(
     (item) => item.id === changeModificationsFor,
